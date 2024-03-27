@@ -58,11 +58,11 @@ Reference
 char *const constPtrString = regularString;
 
 ### Example  
+
 // Define, allocate, load simple strings using strcpy()
 char *regularString = new char[36]; // sized for str below
 strcpy(regularString, "I am a modifiable string");
-char *anotherRegularString = new char[21]; // sized for
-                                           // string below
+char *anotherRegularString = new char[21]; 
 strcpy(anotherRegularString, "I am also modifiable");
 // Define a const pointer to a string; must be initialized
 char *const constPtrString = regularString; // Ok
@@ -71,11 +71,14 @@ char *const constPtrString = regularString; // Ok
 // But you may change the data which you point to
 strcpy(constPtrString, "I can change the value"); // Yes
 
+
 This is the opposite of the 2. 
 Now the pointer is fixed to the memory address first initialized. The value inside that address can be changed.
 This is quite similar to reference, except that pointer still need -> to dereference and enter the value, while reference use dot .
 
 ### Another example
+
+
 char *const constPtrString = regularString;
 is equals to 
 char &constPtrString = regularString;
@@ -83,9 +86,11 @@ char &constPtrString = regularString;
 Reference must be with already defined memory block. No reference with malloc. 
 const pointer can be malloced.
 
+
 char *const constPtrTryMalloc = (char *)malloc(10);
 strcpy(constPtrTryMalloc,"Test1 Test2");
 printf("%s",constPtrTryMalloc);
+
 
 #### Result: Test1 Test2
 
@@ -93,10 +98,11 @@ printf("%s",constPtrTryMalloc);
 
 ## 4. - constant pointers to constant objects and constant reference
 ### Constant Pointer
+
+
 const char *const constStringandPtr = regularString; // Ok 
 // Trying to change the pointer or the data is illegal
-constStringandPtr = anotherRegularString; // No! Can't 
-                                          // modify address
+constStringandPtr = anotherRegularString; // No! Can't modify address                                          
 strcpy(constStringandPtr, "Nope"); // No! Can't modify data
 
 
@@ -108,13 +114,18 @@ is equals to const MyClass * const mc;
 
 
 ## 5. Constant function; Place const at the end of function definition
+
 void funct() const;
 void funct() const { return data_; }
+
+
 This means that the function will not modify the member object. Therefore we only interest in functions inside class/struct here. In other words, methods.
 It is meaningless to have const function for normal function that are not member function.
 
 One might see quite confusing function declaration like this
+
 const T& data() const { return data_; }
+
 It means const reference of type T is the output of the constant member function.
 
  
