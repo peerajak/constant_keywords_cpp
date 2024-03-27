@@ -6,17 +6,18 @@ It is quite confusing all these const keywords is putting in front of, behind po
  constexpr  meaning The value of the variable is set during compile time only. No runtime reassignment.
    Example
 
-
+```cpp
 constexpr int NUMROWS = 5;
-
-int main()
-{return 0;}
+```
 
 
 ## 2. Constant object pointer. The word const is infront of type char *
- const char *constData = "constant". 
+```cpp
+ const char *constData = "constant";
+```
 This position of const means constant object, meaning that the pointer can point to new address, but at the address it pointed to cannot change value
-### Example     
+### Example 
+```cpp    
     const char *constData = "constant"; 
     printf("%s: %p\n", constData,(void *)constData);
     #if 0
@@ -26,7 +27,7 @@ This position of const means constant object, meaning that the pointer can point
        constData = "updated constant";  // allow
        printf("%s: %p\n", constData,(void *)constData);
     #endif
-
+```
 #### Result:
 constant: 0x5588fb2b3007
 updated constant: 0x5588fb2b3018
@@ -37,7 +38,7 @@ This shows that the const infront of const char * means that the value in the ad
 The Result: also show that the const object pointer can point to new memory address. Thus the pointer itself is not constant.
 
 ### Another example
-
+```cpp   
     const int *constIntData;
     int a = 3, b =4, *not_constIntData;    
     constIntData = &a;
@@ -49,16 +50,18 @@ The Result: also show that the const object pointer can point to new memory addr
     not_constIntData = (int *)malloc(sizeof(b));
     memcpy(not_constIntData, &b, sizeof(int));
     #endif
+```
  The compiler outputs error for code inside #if 0 condition. It allow compilation for code insdie #else condtion. 
 This shows that the const infront of const char * means that the value in the address pointed by the pointer cannot be changed, hence the name constant object.
 
 
 ## 3. Constant pointer: The word const is just right behind the type char *
 Reference
+```cpp
 char *const constPtrString = regularString;
-
+```
 ### Example  
-
+```cpp
 // Define, allocate, load simple strings using strcpy()
 char *regularString = new char[36]; // sized for str below
 strcpy(regularString, "I am a modifiable string");
@@ -70,7 +73,7 @@ char *const constPtrString = regularString; // Ok
 // constPtrString = anotherRegularString;  // No! 
 // But you may change the data which you point to
 strcpy(constPtrString, "I can change the value"); // Yes
-
+```
 
 This is the opposite of the 2. 
 Now the pointer is fixed to the memory address first initialized. The value inside that address can be changed.
@@ -78,7 +81,7 @@ This is quite similar to reference, except that pointer still need -> to derefer
 
 ### Another example
 
-
+```cpp
 char *const constPtrString = regularString;
 is equals to 
 char &constPtrString = regularString;
@@ -90,7 +93,7 @@ const pointer can be malloced.
 char *const constPtrTryMalloc = (char *)malloc(10);
 strcpy(constPtrTryMalloc,"Test1 Test2");
 printf("%s",constPtrTryMalloc);
-
+```
 
 #### Result: Test1 Test2
 
@@ -99,24 +102,29 @@ printf("%s",constPtrTryMalloc);
 ## 4. - constant pointers to constant objects and constant reference
 ### Constant Pointer
 
-
+```cpp
 const char *const constStringandPtr = regularString; // Ok 
 // Trying to change the pointer or the data is illegal
 constStringandPtr = anotherRegularString; // No! Can't modify address                                          
 strcpy(constStringandPtr, "Nope"); // No! Can't modify data
-
+```
 
 ### Constant Reference 
 
+```cpp
 const MyClass& mc;
-is equals to const MyClass * const mc; 
-
+```
+is equals to 
+```cpp
+const MyClass * const mc; 
+```
 
 
 ## 5. Constant function; Place const at the end of function definition
-
+```cpp
 void funct() const;
 void funct() const { return data_; }
+```
 
 
 This means that the function will not modify the member object. Therefore we only interest in functions inside class/struct here. In other words, methods.
@@ -124,7 +132,9 @@ It is meaningless to have const function for normal function that are not member
 
 One might see quite confusing function declaration like this
 
+```cpp
 const T& data() const { return data_; }
+```
 
 It means const reference of type T is the output of the constant member function.
 
